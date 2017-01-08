@@ -1,5 +1,10 @@
-# import unicornhat as unicorn
-# unicorn.setlayout(unicorn.PHAT) # mini hat
+"""
+import unicornhat as unicorn
+unicorn.setlayout(unicorn.PHAT) # mini hat
+unicorn.brightness(0.2)
+unicorn.rotation(0)
+
+"""
 
 import requests
 import json
@@ -38,6 +43,7 @@ def get_MET_weather_observations(location):
         print "I failed with code ".format(response.status_code)
 
     data = response.json()
+    # OK, need to change from unicode before I do the .json() interpretation here - or it doesn't give me my nicely formatted dict
     return data
 
 def extract_temperature(data):
@@ -47,8 +53,8 @@ def extract_temperature(data):
 
 def extract_API_temperature(MET_data):
     output=""
-    for member in MET_data["SiteRep"]:
-        output += member + ","
+    for report in MET_data["SiteRep"]:
+        output += report + ","
     return output
 
 
@@ -63,6 +69,28 @@ def temperature_to_hue(temperature):
         return "Yellow"
     elif temperature > 30:
         return "Red"
+
+def hue_to_unicorn(hue):
+    """ Take an RGB colour and display it on the Unicorn HAT
+    Eg hue =(0, 255, 255)
+    """
+    if hue == "White":
+        RGB = (255, 255, 255)
+    elif hue == "Blue":
+        RGB = (0, 0, 255)
+    elif hue == "Green":
+        RGB = (0, 255, 0)
+    elif hue == "Yellow":
+        RGB = (255, 255, 0)
+    elif hue == "Red":
+        RGB = (255, 0, 0)
+    else return "Error! Try a colour input"
+    
+    width,height=unicorn.get_shape()
+    for y in range(height):
+        for x in range(width):
+            unicorn.set_pixel(x,y,RGB)
+    unicorn.show()
 
 
 class TestWeatherDisplay(unittest.TestCase):
@@ -82,7 +110,8 @@ class TestWeatherDisplay(unittest.TestCase):
         pass
 
 if __name__ == "__main__":
-    unittest.main()
+    #unittest.main()
+    hue_to_unicorn("Yellow")
 
 
     
