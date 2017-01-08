@@ -24,16 +24,15 @@ http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/xml/[LocationID]?res
 
 Andrews_Field = "3684"
 
-def get_weather_observations(location):
+def get_MET_weather_observations(location):
     """ From Andrews Field since that's the closest
     to my geographic location in Cambridge at the moment.
     Andrews Field has site ID 3684"""
+    
     API_key = "238ccea7-66bf-44cf-8b14-b0d7b2d787bf"
 
     query_url = "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/{0}?res=hourly&key={1}".format(location, API_key)
-    print query_url
     response = requests.get(query_url)
-    print response
 
     if response.status_code != 200:
         print "I failed with code ".format(response.status_code)
@@ -44,6 +43,13 @@ def get_weather_observations(location):
 def extract_temperature(data):
     output = [int(s) for s in data.split() if s.isdigit()]
     return output[0]
+
+
+def extract_API_temperature(MET_data):
+    output=""
+    for member in MET_data["SiteRep"]:
+        output += member + ","
+    return output
 
 
 def temperature_to_hue(temperature):
@@ -69,16 +75,14 @@ class TestWeatherDisplay(unittest.TestCase):
     def test_display_temperature(self):
         self.assertEqual(temperature_to_hue(13), "Green")
 
-    def test_weather_obs_retrieve(self):
-        self.assertEqual("tiddlybing", get_weather_observations(Andrews_Field))
+    def test_extract_temperature(self):
+        self.assertEqual("DV,Wx,", extract_API_temperature(get_MET_weather_observations(Andrews_Field)))
 
     def tearDown(self):
         pass
 
 if __name__ == "__main__":
-    #unittest.main()
-    data = get_weather_observations(Andrews_Field)
-    print data
+    unittest.main()
 
 
     
