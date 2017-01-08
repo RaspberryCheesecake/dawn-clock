@@ -84,7 +84,8 @@ def hue_to_unicorn(hue):
         RGB = (255, 255, 0)
     elif hue == "Red":
         RGB = (255, 0, 0)
-    else return "Error! Try a colour input"
+    else:
+        return "Not a colour I know, try another"
     
     width,height=unicorn.get_shape()
     for y in range(height):
