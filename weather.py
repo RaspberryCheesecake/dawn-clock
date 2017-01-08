@@ -5,8 +5,32 @@ import requests
 import json
 import unittest
 
-def get_weather_forecast():
-    response = requests.get("url.json")
+
+
+""" From the UK MET Office website documentation:
+
+You would like a complete list of the observations for
+a specified location at each available time-step.
+In this case you specify the location ID explicitly in the location field.
+Example: to obtain observations for a specified location at all available times in XML format:
+
+For json:
+http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/[LocationID]?res=hourly&key=<API key>
+Or for XML data return:
+http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/xml/[LocationID]?res=hourly&key=<API key>
+"""
+
+Andrews_Field = "3684"
+
+def get_weather_observations(location):
+    """ From Andrews Field since that's the closest
+    to my geographic location in Cambridge at the moment.
+    Andrews Field has site ID 3684"""
+    API_key = "238ccea7-66bf-44cf-8b14-b0d7b2d787bf"
+
+    query_url = "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/[{0}]?res=hourly&key=<{1}>".format(location, API_key)
+    print query_url
+    response = requests.get(query_url)
 
     if response.status_code != 200:
         print "I failed with code ".format(response.status_code)
@@ -41,6 +65,9 @@ class TestWeatherDisplay(unittest.TestCase):
 
     def test_display_temperature(self):
         self.assertEqual(temperature_to_hue(13), "Green")
+
+    def test_weather_obs_retrieve(self):
+        self.assertEqual("tiddlybing", get_weather_observations(Andrews_Field))
 
     def tearDown(self):
         pass
