@@ -3,7 +3,7 @@ unicorn.set_layout(unicorn.PHAT) # mini hat
 unicorn.brightness(0.2)
 unicorn.rotation(0)
 
-
+from time import sleep
 import requests
 import json
 import unittest
@@ -90,6 +90,8 @@ def hue_to_unicorn(hue):
         for x in range(width):
             unicorn.set_pixel(x,y,RGB[0], RGB[1], RGB[2])
     unicorn.show()
+
+    sleep(5)
 
 
 class TestWeatherDisplay(unittest.TestCase):
