@@ -15,8 +15,8 @@ def get_weather_forecast():
     return data
 
 def extract_temperature_data(data):
-    output = "Baby it's cold outside"
-    return output
+    output = [int(s) for s in data.split() if s.isdigit()]
+    return output[0]
 
 
 def display_temperature_on_pi(temperature):
@@ -39,7 +39,7 @@ class TestWeatherDisplay(unittest.TestCase):
         self.mock_temp_data = "Baby it's cold outside: 13 degrees C"
 
     def test_extracting_temperature(self):
-        self.assertEqual(extract_temperature_data(self.mock_temp_data), 13.0)
+        self.assertEqual(extract_temperature_data(self.mock_temp_data), 13)
 
     def tearDown(self):
         pass
