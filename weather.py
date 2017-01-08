@@ -1,10 +1,8 @@
-"""
 import unicornhat as unicorn
-unicorn.setlayout(unicorn.PHAT) # mini hat
+unicorn.set_layout(unicorn.PHAT) # mini hat
 unicorn.brightness(0.2)
 unicorn.rotation(0)
 
-"""
 
 import requests
 import json
@@ -90,7 +88,7 @@ def hue_to_unicorn(hue):
     width,height=unicorn.get_shape()
     for y in range(height):
         for x in range(width):
-            unicorn.set_pixel(x,y,RGB)
+            unicorn.set_pixel(x,y,RGB[0], RGB[1], RGB[2])
     unicorn.show()
 
 
