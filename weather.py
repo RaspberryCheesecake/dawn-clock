@@ -1,36 +1,25 @@
 import unicornhat as unicorn
 unicorn.set_layout(unicorn.PHAT) # mini hat
-unicorn.brightness(0.2)
+unicorn.brightness(0.5)
 unicorn.rotation(0)
+
 
 from time import sleep
 import requests
 import json
 import unittest
 
-
-
-""" From the UK MET Office website documentation:
-
-You would like a complete list of the observations for
-a specified location at each available time-step.
-In this case you specify the location ID explicitly in the location field.
-Example: to obtain observations for a specified location at all available times in XML format:
-
-For json:
-http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/[LocationID]?res=hourly&key=<API key>
-Or for XML data return:
-http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/xml/[LocationID]?res=hourly&key=<API key>
-
-
-"""
-
-Andrews_Field = "3684"
+Andrews_Field = "3684" # Get data from here since it's closest to
+# my geographic location in Cambridge at the moment.
 
 def get_MET_weather_observations(location):
-    """ From Andrews Field since that's the closest
-    to my geographic location in Cambridge at the moment.
-    Andrews Field has site ID 3684"""
+    """ From the UK MET Office website documentation:
+    Example: to obtain observations for a specified location at all available times in XML format:
+    For json:
+    http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/[LocationID]?res=hourly&key=<API key>
+    Or for XML data return:
+    http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/xml/[LocationID]?res=hourly&key=<API key>
+    """
     
     API_key = "238ccea7-66bf-44cf-8b14-b0d7b2d787bf"
 
@@ -41,7 +30,8 @@ def get_MET_weather_observations(location):
         print "I failed with code ".format(response.status_code)
 
     data = response.json()
-    # OK, need to change from unicode before I do the .json() interpretation here - or it doesn't give me my nicely formatted dict
+    # OK, need to change from unicode before I do the .json() interpretation -
+    # or it doesn't give me my nicely formatted dict...
     return data
 
 def extract_temperature(data):
@@ -94,24 +84,7 @@ def hue_to_unicorn(hue):
     sleep(5)
 
 
-class TestWeatherDisplay(unittest.TestCase):
-    def setUp(self):
-        self.mock_temp_data = "Baby it's cold outside: 13 degrees C"
-
-    def test_extracting_temperature(self):
-        self.assertEqual(extract_temperature(self.mock_temp_data), 13)
-
-    def test_display_temperature(self):
-        self.assertEqual(temperature_to_hue(13), "Green")
-
-    def test_extract_temperature(self):
-        self.assertEqual("DV,Wx,", extract_API_temperature(get_MET_weather_observations(Andrews_Field)))
-
-    def tearDown(self):
-        pass
-
 if __name__ == "__main__":
-    #unittest.main()
     hue_to_unicorn("Yellow")
 
 
