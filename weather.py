@@ -18,6 +18,8 @@ For json:
 http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/[LocationID]?res=hourly&key=<API key>
 Or for XML data return:
 http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/xml/[LocationID]?res=hourly&key=<API key>
+
+
 """
 
 Andrews_Field = "3684"
@@ -28,14 +30,15 @@ def get_weather_observations(location):
     Andrews Field has site ID 3684"""
     API_key = "238ccea7-66bf-44cf-8b14-b0d7b2d787bf"
 
-    query_url = "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/[{0}]?res=hourly&key=<{1}>".format(location, API_key)
+    query_url = "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/{0}?res=hourly&key={1}".format(location, API_key)
     print query_url
     response = requests.get(query_url)
+    print response
 
     if response.status_code != 200:
         print "I failed with code ".format(response.status_code)
 
-    data = response.json
+    data = response.json()
     return data
 
 def extract_temperature(data):
@@ -73,7 +76,9 @@ class TestWeatherDisplay(unittest.TestCase):
         pass
 
 if __name__ == "__main__":
-    unittest.main()
+    #unittest.main()
+    data = get_weather_observations(Andrews_Field)
+    print data
 
 
     
