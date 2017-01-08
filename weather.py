@@ -14,32 +14,33 @@ def get_weather_forecast():
     data = response.json
     return data
 
-def extract_temperature_data(data):
+def extract_temperature(data):
     output = [int(s) for s in data.split() if s.isdigit()]
     return output[0]
 
 
-def display_temperature_on_pi(temperature):
-    if type(temperature) != float:
-        print "Don't mess me around!"
-
+def temperature_to_hue(temperature):
     if temperature < 0:
-        print "White"
+        return "White"
     elif 0 < temperature < 10:
-        print "Blue"
+        return "Blue"
     elif 10 < temperature < 20:
-        print "Green"
+        return "Green"
     elif 20 < temperature < 30:
-        print "Yellow"
+        return "Yellow"
     elif temperature > 30:
-        print "Red"
+        return "Red"
+
 
 class TestWeatherDisplay(unittest.TestCase):
     def setUp(self):
         self.mock_temp_data = "Baby it's cold outside: 13 degrees C"
 
     def test_extracting_temperature(self):
-        self.assertEqual(extract_temperature_data(self.mock_temp_data), 13)
+        self.assertEqual(extract_temperature(self.mock_temp_data), 13)
+
+    def test_display_temperature(self):
+        self.assertEqual(temperature_to_hue(13), "Green")
 
     def tearDown(self):
         pass
