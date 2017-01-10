@@ -1,8 +1,9 @@
+"""
 import unicornhat as unicorn
 unicorn.set_layout(unicorn.PHAT) # mini hat
 unicorn.brightness(0.5)
 unicorn.rotation(0)
-
+"""
 
 from time import sleep
 import requests
@@ -20,18 +21,18 @@ def get_MET_weather_observations(location):
     Or for XML data return:
     http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/xml/[LocationID]?res=hourly&key=<API key>
     """
-    
     API_key = "238ccea7-66bf-44cf-8b14-b0d7b2d787bf"
 
     query_url = "http://datapoint.metoffice.gov.uk/public/data/val/wxobs/all/json/{0}?res=hourly&key={1}".format(location, API_key)
     response = requests.get(query_url)
 
     if response.status_code != 200:
-        print "I failed with code ".format(response.status_code)
+        print("I failed with code ".format(response.status_code))
 
     data = response.json()
     # OK, need to change from unicode before I do the .json() interpretation -
-    # or it doesn't give me my nicely formatted dict...
+    # or it doesn't give me my nicely formatted dict... what's going on??
+    print(json.dumps(data, sort_keys=True, indent=4))
     return data
 
 def extract_temperature(data):
@@ -41,9 +42,9 @@ def extract_temperature(data):
 
 def extract_API_temperature(MET_data):
     output=""
-    for report in MET_data["SiteRep"]:
-        output += report + ","
-    return output
+    temp_dict = MET_data["SiteRep"]["DV"]["Location"]["Period"]
+    print(temp_dict)
+    return temp_dict
 
 
 def temperature_to_hue(temperature):
