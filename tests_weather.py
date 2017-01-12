@@ -11,8 +11,8 @@ class TestWeatherDisplay(unittest.TestCase):
     def test_display_temperature(self):
         self.assertEqual(temperature_to_hue(13), "Green")
 
-    def test_extract_temperature(self):
-        self.assertEqual("DV,Wx,", extract_API_temperature(get_MET_weather_observations(Andrews_Field)))
+    def test_extract_25hrs_temperatures(self):
+        self.assertEqual(25, len(extract_API_temperatures(get_MET_weather_observations(Andrews_Field))))
 
     def tearDown(self):
         pass

@@ -30,9 +30,7 @@ def get_MET_weather_observations(location):
         print("I failed with code ".format(response.status_code))
 
     data = response.json()
-    # OK, need to change from unicode before I do the .json() interpretation -
-    # or it doesn't give me my nicely formatted dict... what's going on??
-    #print(json.dumps(data, sort_keys=True, indent=4))
+    print(json.dumps(data, sort_keys=True, indent=4))
     return data
 
 def extract_temperature(data):
@@ -43,7 +41,6 @@ def extract_temperature(data):
 def extract_API_temperatures(MET_data):
     output=[]
     main = MET_data["SiteRep"]["DV"]["Location"]["Period"]
-    print(main[0])
 
     for i in range(len(main)):
         extract_rep = main[i]["Rep"]
