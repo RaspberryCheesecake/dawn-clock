@@ -32,7 +32,7 @@ def get_MET_weather_observations(location):
     data = response.json()
     # OK, need to change from unicode before I do the .json() interpretation -
     # or it doesn't give me my nicely formatted dict... what's going on??
-    print(json.dumps(data, sort_keys=True, indent=4))
+    #print(json.dumps(data, sort_keys=True, indent=4))
     return data
 
 def extract_temperature(data):
@@ -42,9 +42,13 @@ def extract_temperature(data):
 
 def extract_API_temperature(MET_data):
     output=""
-    temp_dict = MET_data["SiteRep"]["DV"]["Location"]["Period"]
-    print(temp_dict)
-    return temp_dict
+    temp_strings = MET_data["SiteRep"]["DV"]["Location"]["Period"]
+    print(temp_strings[0])
+    temp_rep = temp_strings[0]["Rep"]
+    print(temp_rep)
+    temp_rep2 = temp_rep[0]["T"]
+    print(temp_rep2)
+    return temp_rep2
 
 
 def temperature_to_hue(temperature):
