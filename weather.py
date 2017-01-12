@@ -40,15 +40,19 @@ def extract_temperature(data):
     return output[0]
 
 
-def extract_API_temperature(MET_data):
-    output=""
-    temp_strings = MET_data["SiteRep"]["DV"]["Location"]["Period"]
-    print(temp_strings[0])
-    temp_rep = temp_strings[0]["Rep"]
-    print(temp_rep)
-    temp_rep2 = temp_rep[0]["T"]
-    print(temp_rep2)
-    return temp_rep2
+def extract_API_temperatures(MET_data):
+    output=[]
+    main = MET_data["SiteRep"]["DV"]["Location"]["Period"]
+    print(main[0])
+
+    for i in range(len(main)):
+        extract_rep = main[i]["Rep"]
+        for j in range(len(extract_rep)):
+            extract_temperature = extract_rep[j]["T"]
+            output.append(extract_temperature)
+
+    print(output)
+    return output
 
 
 def temperature_to_hue(temperature):
