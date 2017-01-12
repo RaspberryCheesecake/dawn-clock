@@ -31,6 +31,7 @@ def temperature_to_hue(temperature):
     elif temperature > 30:
         return "Red"
 
+
 def hue_to_unicorn(hue):
     """ Take an RGB colour and display it on the Unicorn HAT
     Eg hue =(0, 255, 255)
