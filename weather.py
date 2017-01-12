@@ -1,17 +1,8 @@
-"""
-import unicornhat as unicorn
-unicorn.set_layout(unicorn.PHAT) # mini hat
-unicorn.brightness(0.5)
-unicorn.rotation(0)
-"""
-
 from time import sleep
 import requests
 import json
 import unittest
 
-Andrews_Field = "3684" # Get data from here since it's closest to
-# my geographic location in Cambridge at the moment.
 
 def get_MET_weather_observations(location):
     """ From the UK MET Office website documentation:
@@ -30,12 +21,12 @@ def get_MET_weather_observations(location):
         print("I failed with code ".format(response.status_code))
 
     data = response.json()
-    print(json.dumps(data, sort_keys=True, indent=4))
+    # print(json.dumps(data, sort_keys=True, indent=4))
     return data
 
-def extract_temperature(data):
-    output = [int(s) for s in data.split() if s.isdigit()]
-    return output[0]
+def extract_latest_temperature(temp_list):
+    output = [float(s) for s in temp_list]
+    return output[24]
 
 
 def extract_API_temperatures(MET_data):
@@ -52,46 +43,8 @@ def extract_API_temperatures(MET_data):
     return output
 
 
-def temperature_to_hue(temperature):
-    if temperature < 0:
-        return "White"
-    elif 0 < temperature < 10:
-        return "Blue"
-    elif 10 < temperature < 20:
-        return "Green"
-    elif 20 < temperature < 30:
-        return "Yellow"
-    elif temperature > 30:
-        return "Red"
-
-def hue_to_unicorn(hue):
-    """ Take an RGB colour and display it on the Unicorn HAT
-    Eg hue =(0, 255, 255)
-    """
-    if hue == "White":
-        RGB = (255, 255, 255)
-    elif hue == "Blue":
-        RGB = (0, 0, 255)
-    elif hue == "Green":
-        RGB = (0, 255, 0)
-    elif hue == "Yellow":
-        RGB = (255, 255, 0)
-    elif hue == "Red":
-        RGB = (255, 0, 0)
-    else:
-        return "Not a colour I know, try another"
-    
-    width,height=unicorn.get_shape()
-    for y in range(height):
-        for x in range(width):
-            unicorn.set_pixel(x,y,RGB[0], RGB[1], RGB[2])
-    unicorn.show()
-
-    sleep(5)
-
-
 if __name__ == "__main__":
-    hue_to_unicorn("Yellow")
-
-
-    
+    Andrews_Field = "3684"  # Get data from here since it's closest to
+    # my geographic location in Cambridge at the moment.
+    latest_temp_history = extract_API_temperatures(get_MET_weather_observations(Andrews_Field))
+    print(extract_latest_temperature(latest_temp_history))
