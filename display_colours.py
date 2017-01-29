@@ -3,11 +3,26 @@ from colour import Color  # python module to do simple colour gradients -or howe
 from weather import *  # weather.py I wrote myself to fetch weather API info from MET office site
 
 """
+# Uncomment this out when actually running on the Raspberry Pi
 import unicornhat as unicorn
 unicorn.set_layout(unicorn.PHAT) # mini hat
 unicorn.brightness(0.5)
 unicorn.rotation(0)
 """
+
+# Make these global values to save calculating them each time
+white = Color("white")
+blue = Color("blue")
+green = Color("green")
+yellow = Color("yellow")
+red = Color("red")
+blue_to_white = list(blue.range_to(white, 11))
+white_to_green = list(white.range_to(green, 11))
+green_to_yellow = list(green.range_to(yellow, 11))
+yellow_to_red = list(yellow.range_to(red, 11))
+
+colours_range_total = blue_to_white + white_to_green[1:] + green_to_yellow[1:] + yellow_to_red[1:]
+# Got to make sure we get rid of repeated fencepost colours
 
 
 def interpolate_smoothly(val1, val2, time_change, n_steps):
@@ -24,18 +39,7 @@ def interpolate_smoothly(val1, val2, time_change, n_steps):
 
 
 def temperature_to_hue(temperature):
-    white = Color("white")
-    blue = Color("blue")
-    green = Color("green")
-    yellow = Color("yellow")
-    red = Color("red")
-    white_to_blue = list(white.range_to(blue, 11))
-    blue_to_green = list(blue.range_to(green, 11))
-    green_to_yellow = list(green.range_to(yellow, 11))
-    yellow_to_red = list(yellow.range_to(red, 11))
 
-    colours_range_total = white_to_blue + blue_to_green[1:] + green_to_yellow[1:] + yellow_to_red[1:]
-    # Got to make sure we get rid of repeated fencepost colours
 
     if temperature < 0:
         colour_choice = one_range_to_255_range(white.rgb)
@@ -74,7 +78,6 @@ def show_colour_on_unicorn(RGB):
         for x in range(width):
             unicorn.set_pixel(x,y,RGB[0], RGB[1], RGB[2])
     unicorn.show()
-    sleep(10)
 
 
 def glow_fade_on_unicorn():
