@@ -16,6 +16,7 @@ blue = Color("blue")
 green = Color("green")
 yellow = Color("yellow")
 red = Color("red")
+
 blue_to_white = list(blue.range_to(white, 11))
 white_to_green = list(white.range_to(green, 11))
 green_to_yellow = list(green.range_to(yellow, 11))
@@ -80,19 +81,25 @@ def show_colour_on_unicorn(RGB):
     unicorn.show()
 
 
-def glow_fade_on_unicorn():
+def display_temperature_output_spectrum():
+    print("Pooping temperature based rainbows")
+    sleep(0.5)
     for i in range(-5, 35):
         sleep(1)
+        print("Colour for temperature: {0} deg C".format(i))
         show_colour_on_unicorn(temperature_to_hue(i))
         sleep(1)
 
 
 if __name__ == "__main__":
-    glow_fade_on_unicorn()
+    display_temperature_output_spectrum()
     """
     Andrews_Field = "3684"  # Get data from here since it's closest to
     # my geographic location in Cambridge at the moment.
+    print("I'm getting the latest temperature data measured at location {0}".format(Andrews_Field))
     latest_temp_history = extract_API_temperatures(get_MET_weather_observations(Andrews_Field))
     display_temp = extract_latest_temperature(latest_temp_history)
+    print("Now displaying on Pi for your viewing pleasure."
     show_colour_on_unicorn(temperature_to_hue(display_temp))
+    sleep(60)
     """
