@@ -26,24 +26,11 @@ colours_range_total = blue_to_white + white_to_green[1:] + green_to_yellow[1:] +
 # Got to make sure we get rid of repeated fencepost colours
 
 
-def interpolate_smoothly(val1, val2, time_change, n_steps):
-    interpolation_list = []
-    time_step = time_change/n_steps
-    print(time_step)
-    val_step = (val2 - val1)/time_step
-    print(val_step)
-    new_val = val1
-    while new_val < val2:
-        new_val = val1 + val_step
-        interpolation_list.append(new_val)
-    return interpolation_list
-
-
 def temperature_to_hue(temperature):
 
 
-    if temperature < 0:
-        colour_choice = one_range_to_255_range(white.rgb)
+    if temperature < -10:
+        colour_choice = one_range_to_255_range(blue.rgb)
     elif temperature > 30:
         colour_choice = one_range_to_255_range(red.rgb)
     else:
