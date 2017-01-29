@@ -10,7 +10,9 @@ class TestWeather(unittest.TestCase):
         self.assertEqual(extract_latest_temperature(self.mock_temp_list), 3.6)
 
     def test_extract_25hrs_temperatures(self):
-        self.assertEqual(25, len(extract_API_temperatures(get_MET_weather_observations(self.location))))
+        weather_obs = extract_API_temperatures(get_MET_weather_observations(self.location))
+        self.assertEqual(25, len(weather_obs))
+        print("At the moment it's {0} degrees C at location {1}".format(extract_latest_temperature(weather_obs), self.location))
 
     def tearDown(self):
         pass

@@ -39,7 +39,6 @@ def extract_API_temperatures(MET_data):
             extract_temperature = extract_rep[j]["T"]
             output.append(extract_temperature)
 
-    print(output)
     return output
 
 
@@ -47,4 +46,5 @@ if __name__ == "__main__":
     Andrews_Field = "3684"  # Get data from here since it's closest to
     # my geographic location in Cambridge at the moment.
     latest_temp_history = extract_API_temperatures(get_MET_weather_observations(Andrews_Field))
-    print(extract_latest_temperature(latest_temp_history))
+    display_temp = extract_latest_temperature(latest_temp_history)
+    print(display_temp)
