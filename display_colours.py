@@ -27,14 +27,12 @@ colours_range_total = blue_to_white + white_to_green[1:] + green_to_yellow[1:] +
 
 
 def temperature_to_hue(temperature):
-
-
     if temperature < -10:
         colour_choice = one_range_to_255_range(blue.rgb)
     elif temperature > 30:
         colour_choice = one_range_to_255_range(red.rgb)
     else:
-        index = int(temperature)
+        index = int(temperature) + 10
         colour_choice = one_range_to_255_range(colours_range_total[index].rgb)
 
     return colour_choice
@@ -79,14 +77,12 @@ def display_temperature_output_spectrum():
 
 
 if __name__ == "__main__":
-    display_temperature_output_spectrum()
-    """
+    # display_temperature_output_spectrum()
     Andrews_Field = "3684"  # Get data from here since it's closest to
     # my geographic location in Cambridge at the moment.
     print("I'm getting the latest temperature data measured at location {0}".format(Andrews_Field))
     latest_temp_history = extract_API_temperatures(get_MET_weather_observations(Andrews_Field))
     display_temp = extract_latest_temperature(latest_temp_history)
-    print("Now displaying on Pi for your viewing pleasure."
+    print("Now displaying on Pi for your viewing pleasure.")
     show_colour_on_unicorn(temperature_to_hue(display_temp))
     sleep(60)
-    """
