@@ -94,6 +94,7 @@ def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
     increment_time = time_displaying / pause_to_display
 
     for temp in latest_temp_history:
+        print("Displaying temperature {}".format(temp))
         show_colour_on_unicorn(temperature_to_hue(temp))
         unicorn.brightness(bright + increment)
         sleep(increment_time)
