@@ -2,13 +2,14 @@ from time import sleep
 from colour import Color  # python module to do simple colour gradients -or however we want to spell it - color? colour?
 from weather import *  # weather.py I wrote myself to fetch weather API info from MET office site
 
-"""
-# Uncomment this out when actually running on the Raspberry Pi
+import sys
+
 import unicornhat as unicorn
+
 unicorn.set_layout(unicorn.PHAT) # mini hat
 unicorn.brightness(0.5)
 unicorn.rotation(0)
-"""
+
 
 # Make these global values to save calculating them each time
 white = Color("white")
@@ -76,13 +77,40 @@ def display_temperature_output_spectrum():
         sleep(1)
 
 
+def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
+                                              time_displaying=60.0):
+    """
+    Get the temperature history from the last few hours & display for user
+    """
+    weather_observations = get_MET_weather_observations(weather_station)
+    latest_temp_history = extract_API_temperatures(weather_observations)
+    today_temp = extract_latest_temperature(latest_temp_history)
+
+    bright = 0.0
+    increment = max_bright / 24
+
+    time_taken = 0.0
+    pause_to_display = 0.5
+    increment_time = time_displaying / pause_to_display
+
+    for temp in latest_temp_history:
+        show_colour_on_unicorn(temperature_to_hue(temp))
+        unicorn.brightness(bright + increment)
+        sleep(increment_time)
+
+    # Then turn off the hat
+    unicorn.brightness(0.0)
+
+
 if __name__ == "__main__":
-    # display_temperature_output_spectrum()
-    Andrews_Field = "3684"  # Get data from here since it's closest to
+    display_time = sys.argv[1]
+    max_brightness = sys.argv[2]
+
+    Andrews_Field = "3684"
+    # Get data from here since it's closest to
     # my geographic location in Cambridge at the moment.
-    print("I'm getting the latest temperature data measured at location {0}".format(Andrews_Field))
-    latest_temp_history = extract_API_temperatures(get_MET_weather_observations(Andrews_Field))
-    display_temp = extract_latest_temperature(latest_temp_history)
     print("Now displaying on Pi for your viewing pleasure.")
-    show_colour_on_unicorn(temperature_to_hue(display_temp))
-    sleep(60)
+    obtain_temperature_and_display_on_unicorn(weather_station=Andrews_Field,
+                                              max_bright=max_brightness,
+                                              time_displaying=display_time)
+    print("Goodbye!")

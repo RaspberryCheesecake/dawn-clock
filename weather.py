@@ -25,8 +25,7 @@ def get_MET_weather_observations(location):
     return data
 
 def extract_latest_temperature(temp_list):
-    output = [float(s) for s in temp_list]
-    return output[24]
+    return temp_list[24]
 
 
 def extract_API_temperatures(MET_data):
@@ -37,7 +36,7 @@ def extract_API_temperatures(MET_data):
         extract_rep = main[i]["Rep"]
         for j in range(len(extract_rep)):
             extract_temperature = extract_rep[j]["T"]
-            output.append(extract_temperature)
+            output.append(float(extract_temperature))
 
     return output
 
