@@ -86,7 +86,7 @@ def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
     latest_temp_history = extract_API_temperatures(weather_observations)
     today_temp = extract_latest_temperature(latest_temp_history)
 
-    bright = 0.0
+    bright = 0.1
     increment = max_bright / 24
 
     time_taken = 0.0
@@ -97,9 +97,6 @@ def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
         show_colour_on_unicorn(temperature_to_hue(temp))
         unicorn.brightness(bright + increment)
         sleep(increment_time)
-
-    # Then turn off the hat
-    unicorn.brightness(0.0)
 
 
 if __name__ == "__main__":
