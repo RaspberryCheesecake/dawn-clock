@@ -103,8 +103,8 @@ def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
 
 
 if __name__ == "__main__":
-    display_time = sys.argv[1]
-    max_brightness = sys.argv[2]
+    display_time = float(sys.argv[1])
+    max_brightness = float(sys.argv[2])
 
     Andrews_Field = "3684"
     # Get data from here since it's closest to
