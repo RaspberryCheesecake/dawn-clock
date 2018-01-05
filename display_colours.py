@@ -78,7 +78,7 @@ def display_temperature_output_spectrum():
 
 
 def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
-                                              time_displaying=60.0):
+                                              time_displaying=24.0):
     """
     Get the temperature history from the last few hours & display for user
     """
@@ -87,17 +87,15 @@ def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
     today_temp = extract_latest_temperature(latest_temp_history)
 
     bright = 0.1
-    increment = max_bright / 24
+    increment = max_bright / 24.0
 
-    time_taken = 0.0
-    pause_to_display = 0.5
-    increment_time = time_displaying / pause_to_display
+    pause_to_display = time_displaying / 24.0
 
     for temp in latest_temp_history:
         print("Displaying temperature {}".format(temp))
         show_colour_on_unicorn(temperature_to_hue(temp))
         unicorn.brightness(bright + increment)
-        sleep(increment_time)
+        sleep(pause_to_display)
 
 
 if __name__ == "__main__":
