@@ -5,12 +5,6 @@ class TestDisplay(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_display_temperature(self):
-        self.assertEqual(temperature_to_hue(-1.5), (255, 255, 255))
-        self.assertEqual(temperature_to_hue(35.7), (255, 0, 0))
-        self.assertEqual(temperature_to_hue(10.5), (0, 0, 255) )
-        # ends of range
-
     def test_colour_interpolation_works(self):
         blue = Color("blue")
         green = Color("green")

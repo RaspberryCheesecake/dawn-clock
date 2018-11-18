@@ -1,15 +1,8 @@
 from time import sleep
-from colour import Color  # python module to do simple colour gradients -or however we want to spell it - color? colour?
-from weather import *  # weather.py I wrote myself to fetch weather API info from MET office site
+from colour import Color  # module to do simple colour gradients
 
 import sys
-
-import unicornhat as unicorn
-
-unicorn.set_layout(unicorn.PHAT) # mini hat
-unicorn.brightness(0.5)
-unicorn.rotation(0)
-
+import math
 
 # Make these global values to save calculating them each time
 white = Color("white")
@@ -59,54 +52,53 @@ def one_range_to_255_range(RGB_tuple):
     return vals
 
 
+def sigmoid_curve(x, L=1, k=1, x0=0):
+    """
+    The so-called 'Logistic' function
+    https://en.wikipedia.org/wiki/Logistic_function
+
+    It starts out increasing rapidly and slowly levels off to a constant.
+    Dawn behaves this way.
+
+    :param x: input
+    :param L: Curve y maximum
+    :param k: controls slope
+    :param x0: Midpoint of curve
+    :return: f(x)
+    """
+    return L/(1 + math.e**(-1 * k*(x - x0)))
+
+
+def display_dawn_sigmoid(sleep_pause_sec):
+    x = -6  # close enough approx to 0 start
+    while x < 6:
+        brightness = sigmoid_curve(x)
+        unicorn.brightness(brightness)
+        # Let's just say dawn is white for now
+        show_colour_on_unicorn(hue_to_RGB("white"))
+        sleep(sleep_pause_sec)
+        x += 0.5  # And increment x
+
+    print("Goodbye!")
+
+
 def show_colour_on_unicorn(RGB):
+    """ Display an (R, G, B) value on the Unicorn Hat """
     width,height = unicorn.get_shape()
     for y in range(height):
         for x in range(width):
-            unicorn.set_pixel(x,y,RGB[0], RGB[1], RGB[2])
+            unicorn.set_pixel(x, y, RGB[0], RGB[1], RGB[2])
     unicorn.show()
 
 
-def display_temperature_output_spectrum():
-    print("Pooping temperature based rainbows")
-    sleep(0.5)
-    for i in range(-5, 35):
-        sleep(1)
-        print("Colour for temperature: {0} deg C".format(i))
-        show_colour_on_unicorn(temperature_to_hue(i))
-        sleep(1)
-
-
-def obtain_temperature_and_display_on_unicorn(weather_station, max_bright=0.5,
-                                              time_displaying=24.0):
-    """
-    Get the temperature history from the last few hours & display for user
-    """
-    weather_observations = get_MET_weather_observations(weather_station)
-    latest_temp_history = extract_API_temperatures(weather_observations)
-    today_temp = extract_latest_temperature(latest_temp_history)
-
-    bright = 0.1
-    increment = max_bright / 24.0
-
-    pause_to_display = time_displaying / 24.0
-
-    for temp in latest_temp_history:
-        print("Displaying temperature {}".format(temp))
-        show_colour_on_unicorn(temperature_to_hue(temp))
-        unicorn.brightness(bright + increment)
-        sleep(pause_to_display)
-
-
 if __name__ == "__main__":
-    display_time = float(sys.argv[1])
-    max_brightness = float(sys.argv[2])
+    import unicornhat as unicorn
 
-    Andrews_Field = "3684"
-    # Get data from here since it's closest to
-    # my geographic location in Cambridge at the moment.
-    print("Now displaying on Pi for your viewing pleasure.")
-    obtain_temperature_and_display_on_unicorn(weather_station=Andrews_Field,
-                                              max_bright=max_brightness,
-                                              time_displaying=display_time)
+    unicorn.set_layout(unicorn.PHAT)  # mini hat
+    unicorn.rotation(0)
+
+    pause_time = float(sys.argv[1])
+
+    print("Now dawning on Pi for your viewing pleasure.")
+    display_dawn_sigmoid(pause_time)
     print("Goodbye!")
