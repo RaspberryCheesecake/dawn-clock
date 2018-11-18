@@ -1,10 +1,8 @@
 from display_colours import *
 import unittest
 
-class TestDisplay(unittest.TestCase):
-    def setUp(self):
-        pass
 
+class TestDisplay(unittest.TestCase):
     def test_colour_interpolation_works(self):
         blue = Color("blue")
         green = Color("green")
@@ -20,8 +18,6 @@ class TestDisplay(unittest.TestCase):
     def test_hue_translation(self):
         self.assertEqual(hue_to_RGB("Red"), (255, 0, 0))
 
-    def tearDown(self):
-        pass
 
 if __name__ == "__main__":
     unittest.main()

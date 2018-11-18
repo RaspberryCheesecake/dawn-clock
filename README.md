@@ -1,4 +1,3 @@
-Code for my Raspberry Pi Zero/ Unicorn-hat based "glow jar" (all hail the glow jar) to glow with appropriate
-colours for the weather outside. From blue (-10 and below) to white to green to yellow to red (30 +).
-The jar uses the MET Office's Weather API to get the latest temperature measurements from a 
-weather station at Andrew's Field (a few miles away from Cambridge, the closest one to me).
+##Welcome to Dawn Clock.
+
+This project uses a Raspberry Pi Zero with a [Unicorn Hat](https://github.com/pimoroni/unicorn-hat) pixel display to simulate a gently brightening 'dawn' effect, to act as an [alarm-clock](https://en.wikipedia.org/wiki/Dawn_simulation) for the dark winter months. I'm using the 'Glow Jar' container I made for [my last project](https://github.com/RaspberryCheesecake/glow_jar) to make it look fancier (all hail the glow jar).
