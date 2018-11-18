@@ -82,7 +82,7 @@ def display_dawn_sigmoid(dawn_duration_mins=30.0):
         brightness = sigmoid_curve(x)
         unicorn.brightness(brightness)
         # We want dawn to shade from yellow into a bright white
-        colour_choice = one_range_to_255_range(yellow_to_white[int(x)].rgb)
+        colour_choice = one_range_to_255_range(yellow_to_white[int(x) + 6].rgb)
         show_colour_on_unicorn(colour_choice)
         sleep(sec_per_step)
         x += increment_x  # And increment brightness
