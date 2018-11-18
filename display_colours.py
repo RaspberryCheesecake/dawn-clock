@@ -69,17 +69,23 @@ def sigmoid_curve(x, L=1, k=1, x0=0):
     return L/(1 + math.e**(-1 * k*(x - x0)))
 
 
-def display_dawn_sigmoid(sleep_pause_sec):
+def display_dawn_sigmoid(dawn_duration_mins=30.0):
     x = -6  # close enough approx to 0 start
+
+    sleep_pause_sec = 1
+    sec_per_step = dawn_duration_mins * 60 / 12.0  # ~ 12 steps in the sigmoid
+
+    increment_x = sleep_pause_sec/ sec_per_step
+
     while x < 6:
         brightness = sigmoid_curve(x)
         unicorn.brightness(brightness)
-        # Let's just say dawn is white for now
+        # Let's just say dawn is a steady white for now
         show_colour_on_unicorn(hue_to_RGB("white"))
-        sleep(sleep_pause_sec)
-        x += 0.5  # And increment x
+        sleep(sec_per_step)
+        x += increment_x  # And increment brightness
 
-    print("Goodbye!")
+    print("It's a new dawn, it's a new day.")
 
 
 def show_colour_on_unicorn(RGB):
@@ -97,8 +103,8 @@ if __name__ == "__main__":
     unicorn.set_layout(unicorn.PHAT)  # mini hat
     unicorn.rotation(0)
 
-    pause_time = float(sys.argv[1])
+    dawn_duration_min = float(sys.argv[1])
 
     print("Now dawning on Pi for your viewing pleasure.")
-    display_dawn_sigmoid(pause_time)
+    display_dawn_sigmoid(dawn_duration_min)
     print("Goodbye!")

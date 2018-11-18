@@ -1,3 +1,3 @@
-##Welcome to Dawn Clock.
+## Welcome to Dawn Clock.
 
 This project uses a Raspberry Pi Zero with a [Unicorn Hat](https://github.com/pimoroni/unicorn-hat) pixel display to simulate a gently brightening 'dawn' effect, to act as an [alarm-clock](https://en.wikipedia.org/wiki/Dawn_simulation) for the dark winter months. I'm using the 'Glow Jar' container I made for [my last project](https://github.com/RaspberryCheesecake/glow_jar) to make it look fancier (all hail the glow jar).
