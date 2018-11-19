@@ -1,1 +1,1 @@
-python display_colours.py 60.0 0.5
+python run_on_startup.py 30.0
