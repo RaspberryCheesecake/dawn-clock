@@ -8,7 +8,7 @@ def run_on_startup(dawn_min):
     while True:
         just_now = datetime.datetime.now()
 
-        if just_now.hour == 7 and just_now.minute == 30:
+        if just_now.hour == 21 and just_now.minute == 0:
             display_dawn_sigmoid(dawn_min)
 
         sleep(5)  # Carry on round and check again later

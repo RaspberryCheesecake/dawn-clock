@@ -1,5 +1,6 @@
 from time import sleep
 from colour import Color  # module to do simple colour gradients
+import unicornhat as unicorn
 
 import sys
 import math
@@ -101,8 +102,6 @@ def show_colour_on_unicorn(RGB):
 
 
 if __name__ == "__main__":
-    import unicornhat as unicorn
-
     unicorn.set_layout(unicorn.PHAT)  # mini hat
     unicorn.rotation(0)
 
