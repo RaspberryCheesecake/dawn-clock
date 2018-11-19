@@ -75,7 +75,7 @@ def display_dawn_sigmoid(dawn_duration_mins=30.0):
     sleep_pause_sec = 1
     sec_per_step = dawn_duration_mins * 60 / 12.0  # ~ 12 steps in the sigmoid
 
-    increment_x = sleep_pause_sec/ sec_per_step
+    increment_x = sleep_pause_sec / sec_per_step
     yellow_to_white = list(yellow.range_to(white, 12))
 
     while x < 6:
@@ -84,7 +84,7 @@ def display_dawn_sigmoid(dawn_duration_mins=30.0):
         # We want dawn to shade from yellow into a bright white
         colour_choice = one_range_to_255_range(yellow_to_white[int(x) + 6].rgb)
         show_colour_on_unicorn(colour_choice)
-        sleep(sec_per_step)
+        sleep(sleep_pause_sec)
         x += increment_x  # And increment brightness
 
     print("It's a new dawn, it's a new day.")
